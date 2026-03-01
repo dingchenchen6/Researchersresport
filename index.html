@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>当代科研人画像：中国科研人员生存报告（AI辅助生成）</title>
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#05060a;--cd:#0f1019;--red:#dc3545;--emb:#e07a2f;--gld:#c49a3c;--tea:#1a9a8e;--blu:#3d7bb8;--cyn:#0891b2;--vio:#7c3aed;--pnk:#be185d;--t0:#fff;--t1:#dfe0e8;--t2:#8c8ea0;--t3:#50526a;--bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.10)}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--t1);font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',system-ui,sans-serif;line-height:1.95;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:20px}
+::selection{background:var(--red);color:#fff}
+a{color:var(--tea);text-decoration:none}
+strong{color:inherit;font-weight:600}
+.mn{font-family:'SF Mono',Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.016;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* HERO */
+.hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 24px 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 25% 35%,rgba(220,53,69,.06) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 75% 65%,rgba(26,154,142,.04) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 50% 90%,rgba(224,122,47,.03) 0%,transparent 70%)}
+.hero-tag{display:inline-block;padding:4px 20px;border:1px solid var(--bd2);border-radius:100px;font-size:12px;letter-spacing:6px;color:var(--t3);margin-bottom:32px;animation:ri .7s ease both}
+.hero h1{font-weight:900;font-size:clamp(26px,6.5vw,52px);line-height:1.2;margin-bottom:16px;animation:ri .7s .08s ease both}
+.hero h1 em{font-style:normal;display:block;background:linear-gradient(135deg,var(--red),var(--emb),var(--gld));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 span{display:block;font-size:.48em;font-weight:400;color:var(--t2);margin-top:8px;-webkit-text-fill-color:var(--t2)}
+.hero-desc{font-size:18px;color:var(--t2);max-width:540px;margin:0 auto 40px;line-height:2.1;animation:ri .7s .16s ease both}
+.hero-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:560px;width:100%;animation:ri .7s .24s ease both}
+@media(min-width:560px){.hero-grid{grid-template-columns:repeat(5,1fr);max-width:860px}}
+.hero-cell{text-align:center;padding:14px 8px}
+.hero-cell .mn{font-size:clamp(20px,5vw,30px);font-weight:700;display:block;line-height:1.2}
+.hero-cell small{font-size:12.5px;color:var(--t3);margin-top:3px;display:block}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:var(--t3);font-size:12px;letter-spacing:4px;animation:bob 2.5s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+@keyframes ri{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(5,6,10,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;max-width:860px;margin:0 auto;padding:0 6px}
+.nav a{color:var(--t3);font-size:15.5px;font-weight:500;padding:14px 13px;white-space:nowrap;border-bottom:2px solid transparent;transition:.25s;flex-shrink:0}
+.nav a.active,.nav a:hover{color:var(--red);border-bottom-color:var(--red)}
+/* LAYOUT */
+.wrap{max-width:860px;margin:0 auto;padding:0 18px}
+.sec{padding:52px 0 56px;border-bottom:1px solid var(--bd);opacity:0;transform:translateY(24px);transition:opacity .55s,transform .55s}
+.sec.vis{opacity:1;transform:translateY(0)}
+.sec-lb{font-size:12.5px;letter-spacing:4px;color:var(--red);margin-bottom:6px;font-weight:600}
+.sec-ti{font-weight:900;font-size:clamp(20px,4.5vw,28px);line-height:1.35;margin-bottom:6px}
+.sec-su{font-size:18px;color:var(--t2);margin-bottom:30px;line-height:1.8}
+.txt{font-size:18.5px;color:var(--t2);line-height:2}
+/* COMPONENTS */
+.cd{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:22px;margin-bottom:14px}
+.cd-ac{border-left:4px solid var(--red)}
+.st{background:var(--cd);border-radius:12px;padding:16px;border-left:3px solid var(--red)}
+.st-v{font-size:clamp(18px,4vw,24px);font-weight:700;line-height:1.15;margin-bottom:3px}
+.st-l{font-size:16px;font-weight:600;color:var(--t1)}
+.st-s{font-size:14px;color:var(--t3);margin-top:2px}
+.qt{background:linear-gradient(135deg,rgba(220,53,69,.04),rgba(224,122,47,.02));border-left:3px solid var(--red);border-radius:0 12px 12px 0;padding:18px 20px;margin:18px 0;font-size:18px;color:var(--t2);line-height:2}
+.qt .src{display:block;margin-top:6px;font-size:14px;color:var(--t3);font-style:italic}
+.hl{display:inline;padding:1px 5px;border-radius:3px;font-weight:700;font-size:16.5px}
+.hl-r{background:rgba(220,53,69,.1);color:var(--red)}.hl-e{background:rgba(224,122,47,.1);color:var(--emb)}.hl-t{background:rgba(26,154,142,.1);color:var(--tea)}.hl-b{background:rgba(61,123,184,.1);color:var(--blu)}
+.fc{background:rgba(255,255,255,.012);border-radius:12px;padding:18px;border-top:3px solid var(--red);margin-bottom:10px}
+.fc h4{font-size:18px;font-weight:700;margin-bottom:6px}
+.fc p{font-size:17px;color:var(--t2);line-height:2}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g2 .cd{text-align:left}
+.g2 .sol{text-align:left}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:560px){.g4{grid-template-columns:repeat(4,1fr)}}
+.big-n{text-align:center;padding:24px 16px;margin:16px 0}
+.big-n .mn{font-size:clamp(36px,8vw,56px);font-weight:900;line-height:1;margin-bottom:4px}
+.big-n small{font-size:16px;color:var(--t3)}
+.phi{position:relative;padding:28px 24px;margin:18px 0;border-radius:14px;background:linear-gradient(135deg,rgba(124,58,237,.04),rgba(220,53,69,.03));border:1px solid rgba(124,58,237,.12)}
+.phi h4{font-size:19px;font-weight:700;color:var(--vio);margin-bottom:10px}
+.phi p{font-size:18px;color:var(--t2);line-height:2.1}
+.sol{font-size:17px;color:var(--t2);line-height:2;padding-left:18px;position:relative;margin-bottom:1px}
+.sol::before{content:'›';position:absolute;left:3px;font-weight:700;color:var(--red)}
+.ref{font-size:15.5px;color:var(--t3);line-height:2;padding:6px 0;border-bottom:1px solid var(--bd)}
+.ref:last-child{border-bottom:none}
+.ref b{color:var(--t2);font-weight:600}
+/* CHART BOX */
+.cht{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:14px;overflow:hidden;font-size:18.5px;line-height:1.95}
+.cht-h{font-size:18px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.cht-h::before{content:'';width:3px;height:14px;background:var(--red);border-radius:2px;flex-shrink:0}
+.cht-f{font-size:14.5px;color:var(--t3);margin-top:10px;text-align:center;line-height:1.6}
+/* SVG CHART STYLES */
+.cht svg{width:100%;display:block}
+.bar-label{fill:var(--t2);font-size:13px;font-family:inherit}
+.bar-value{fill:var(--t1);font-size:10px;font-family:'SF Mono',Menlo,Consolas,monospace;font-weight:600}
+.axis-label{fill:var(--t3);font-size:9px;font-family:inherit}
+.grid-line{stroke:rgba(255,255,255,.04);stroke-width:1}
+/* CSS BAR CHART */
+.css-bar{margin-bottom:8px}
+.css-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.css-bar-label{font-size:11px;color:var(--t2);min-width:70px;text-align:right;flex-shrink:0}
+.css-bar-track{flex:1;height:22px;background:rgba(255,255,255,.03);border-radius:4px;overflow:hidden;position:relative}
+.css-bar-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.22,1,.36,1);display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.css-bar-val{font-size:9px;font-weight:700;color:rgba(255,255,255,.9);white-space:nowrap}
+.css-bar-ext{font-size:11px;color:var(--t1);margin-left:10px;min-width:72px;flex-shrink:0;font-weight:700;opacity:.92}
+/* DONUT CSS */
+.donut-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center}
+.donut-svg{width:180px;height:180px;flex-shrink:0}
+.donut-legend{display:flex;flex-direction:column;gap:4px}
+.donut-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t2)}
+.donut-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+/* PROGRESS BAR (for insurance etc) */
+.pr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.pr:last-child{border-bottom:none}
+.pr-l{font-size:11.5px;color:var(--t1);min-width:80px;flex-shrink:0}
+.pr-bar{flex:1;height:6px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden}
+.pr-fill{height:100%;border-radius:3px;width:0;transition:width 1.4s cubic-bezier(.22,1,.36,1)}
+.pr-v{font-size:11px;font-weight:700;min-width:80px;text-align:right;flex-shrink:0}
+/* LINE CHART CSS */
+.line-chart{position:relative;padding:10px 0}
+.line-chart svg{width:100%;overflow:visible}
+/* RADAR CSS */
+.radar-wrap{display:flex;justify-content:center;padding:10px 0}
+.radar-wrap svg{max-width:320px;width:100%}
+/* SHARE */
+.share{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(5,6,10,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--bd);padding:10px 16px;display:flex;align-items:center;justify-content:center;gap:10px}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:10px 22px;border:none;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;font-family:inherit}
+.share-btn:active{transform:scale(.95)}
+.share-p{background:var(--red);color:#fff}
+.share-s{background:rgba(255,255,255,.08);color:var(--t1)}
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);background:rgba(0,0,0,.88);color:#fff;padding:14px 28px;border-radius:10px;font-size:14px;z-index:300;opacity:0;pointer-events:none;transition:.25s}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.toc{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:22px;margin:28px 0}
+.toc-t{font-size:13px;font-weight:700;margin-bottom:12px}
+.toc a{display:block;font-size:12px;color:var(--t2);padding:5px 0;border-bottom:1px solid var(--bd);transition:.2s}
+.toc a:last-child{border-bottom:none}
+.toc a:hover{color:var(--red);padding-left:6px}
+.toc .n{color:var(--red);font-weight:600;margin-right:6px}
+.footer{padding:40px 0 90px;text-align:center}
+.footer p{font-size:10px;color:var(--t3);line-height:2;max-width:700px;margin:0 auto;padding:0 16px}
+@media(max-width:480px){.g2,.g3{grid-template-columns:1fr}.cd{padding:16px}.cht{padding:14px}.sec{padding:36px 0 40px}}
+/* ===== Citation tags / 学术引用角标 ===== */
+.has-cite{position:relative}
+.cite-tag{ position:absolute;top:10px;right:12px; font-size:11px;line-height:1; padding:4px 8px;border-radius:999px; border:1px solid var(--bd2); background:rgba(20,22,30,.55); color:var(--t2); text-decoration:none; backdrop-filter: blur(6px);
+}
+.cite-tag:hover{border-color:rgba(255,255,255,.35);color:var(--t1);transform:translateY(-1px)}
+.cite-inline{font-size:11px;vertical-align:super;margin-left:2px}
+.cite-inline a{color:var(--t2);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.25)}
+.cite-inline a:hover{color:var(--t1);border-bottom-color:rgba(255,255,255,.45)}
+.ref.flash{outline:2px solid rgba(220,53,69,.45);border-radius:10px;padding:10px;background:rgba(220,53,69,.06)}
+/* Floating back-to-top */
+#toTop{ position:fixed;right:16px;bottom:18px;z-index:99; display:none;align-items:center;gap:8px; padding:10px 12px;border-radius:999px; border:1px solid var(--bd2); background:rgba(18,20,28,.65); color:var(--t2);font-size:12px;cursor:pointer; backdrop-filter: blur(8px);
+}
+#toTop:hover{color:var(--t1);border-color:rgba(255,255,255,.35);transform:translateY(-1px)}
+
+/* Alignment & readability tweaks */
+.toc, .toc-t, .toc a{ text-align:left }
+#s13, #s13 .cd, #s13 .ref, #s13 .sec-su, #s13 .txt{ text-align:left }
+.ref{ text-align:left }
+.txt, .sec-su, .hero-desc, .qt, .phi p, .fc p{ text-align:justify; text-justify:inter-ideograph }
+.txt, .sec-su, .hero-desc{ hyphens:auto }
+
+/* QR box */
+.qrbox{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:22px;flex-wrap:wrap}
+.qrbox img{width:112px;height:112px;border-radius:12px;border:1px solid var(--bd);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.qrbox .qrcap{max-width:360px;text-align:left}
+.qrbox .qrcap .t{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.qrbox .qrcap .s{font-size:10.5px;color:var(--t3);line-height:1.7}
+.qrbox .qrcap .lnk{font-size:10.5px;color:var(--tea);word-break:break-all}
+
+
+
+/* Comic panels */
+.comic{background:rgba(255,255,255,.025);border-radius:14px;padding:18px;margin:14px 0;border:1px solid rgba(255,255,255,.04);position:relative;overflow:hidden}
+.comic::before{content:'🎨';position:absolute;top:8px;right:12px;font-size:16px;opacity:.3}
+.comic-title{font-size:12px;font-weight:800;color:var(--emb);margin-bottom:10px;letter-spacing:1px}
+.comic-scene{font-family:'Courier New',monospace;font-size:11px;line-height:1.8;color:var(--t1);white-space:pre-line;padding:10px 14px;background:rgba(0,0,0,.2);border-radius:8px;border-left:3px solid var(--emb)}
+.comic-caption{font-size:10px;color:var(--t3);margin-top:8px;text-align:center;font-style:italic}
+/* Slang tag */
+.slang{display:inline-block;padding:1px 8px;border-radius:100px;font-size:9px;font-weight:700;background:rgba(224,122,47,.1);color:var(--emb);margin:0 2px;vertical-align:middle}
+/* Timeline */
+.tl{position:relative;padding-left:24px;margin:10px 0}
+.tl::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--red),var(--emb),var(--tea))}
+.tl-item{position:relative;padding:8px 0 8px 14px;font-size:11.5px;color:var(--t2);line-height:1.7}
+.tl-item::before{content:'';position:absolute;left:-22px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--emb);border:2px solid var(--bg)}
+.tl-item:first-child::before{background:var(--red)}
+.tl-item:last-child::before{background:var(--tea)}
+.tl-age{color:var(--emb);font-weight:700;font-size:12px}
+/* Level bar with emoji */
+.lvl{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:11px}
+.lvl-bar{flex:1;height:14px;background:rgba(255,255,255,.03);border-radius:7px;overflow:hidden}
+.lvl-fill{height:100%;border-radius:7px;display:flex;align-items:center;padding:0 6px;font-size:8px;font-weight:700;color:rgba(255,255,255,.9)}
+.lvl-label{min-width:80px;color:var(--t2);text-align:right}
+.lvl-val{min-width:40px;color:var(--t1);font-weight:600}
+
+
+/* ===== Mobile reading improvements (v4) ===== */
+@media (max-width: 768px){
+  body{font-size:21px}
+  .wrap{padding:0 16px}
+  .hero{min-height:auto;padding:44px 16px 56px}
+  .nav a{padding:14px 14px;font-size:16.5px}
+  .grid{gap:12px}
+  .card{padding:16px}
+  .kpi{padding:14px}
+}
+@media (max-width: 420px){
+  body{font-size:21.5px}
+  .hero h1{font-size:28px}
+  .hero p{font-size:17.5px}
+}
+
+</style>
+</head>
+<body>
+<!-- HERO -->
+<section class="hero">
+<div class="hero-tag">深 度 数 据 报 告 · 2 0 2 5</div>
+<h1><em>当代科研人画像</em><span>读博穷三代，科研毁一生？</span></h1>
+<p class="hero-desc">论文产出规模居世界前列（约99万篇/年；2024，口径：Web of Science 检索统计，检索式/去重规则不同会有差异）。基金竞争激烈：青年科学基金项目资助约23,226项，资助率约15.5%（2024集中接收；资助率为公开统计口径的估算值）。博士生月入3000–5000（口径：奖助学金/补贴合计；地区与高校差异大）。科研诚信与论文质量近年更受关注（更正/撤稿/通报等口径差异大）。——欢迎来到当代中国科研人的世界：论文是命，基金是氧气，编制是信仰，而头发……是祭品。</p>
+<div class="hero-grid">
+<div class="hero-cell"><b class="mn" style="color:var(--red)">99万篇</b><small>2024年中国SCI论文·全球第一</small></div>
+<div class="hero-cell"><b class="mn" style="color:var(--emb)">15.54%</b><small>国自然青年项目资助率*</small></div>
+<div class="hero-cell"><b class="mn" style="color:var(--tea)">50–80%+</b><small>部分岗位被报道的淘汰率（口径差异大）</small></div>
+<div class="hero-cell"><b class="mn" style="color:var(--blu)">3000–5000元</b><small>博士生月均收入（区间；口径见文末）</small></div>
+<div class="hero-cell"><b class="mn" style="color:var(--vio)">36万项</b><small>国自然年申请量·僧多粥少</small></div>
+</div>
+<div class="scroll-hint">▽ 向 下 探 索</div>
+</section>
+<!-- NAV -->
+<nav class="nav"><div class="nav-inner">
+<a href="#s1">画像</a><a href="#s2">收入</a><a href="#s3">论文</a><a href="#sAI">AI</a><a href="#s4">诚信</a><a href="#s5">基金</a><a href="#s6">非升即走</a><a href="#s7">指挥棒</a><a href="#s8">日常</a><a href="#s9">导学</a><a href="#s10">心理</a><a href="#s11">漫画</a><a href="#s12">出路</a><a href="#s13">文献</a>
+</div></nav>
+<div class="wrap">
+<!-- TOC -->
+<div class="toc">
+  <div class="toc-t">📑 全文目录（14章）</div>
+  <a href="#s1"><span class="n">01</span>画像：当代科研打工人</a>
+  <a href="#s2"><span class="n">02</span>收入：读了20年书，收入几何？</a>
+  <a href="#s3"><span class="n">03</span>论文：Publish or Perish</a>
+  <a href="#sAI"><span class="n">04</span>AI：机遇、风险与下一次技术浪潮</a>
+  <a href="#s4"><span class="n">05</span>诚信：论文工厂与科研诚信</a>
+  <a href="#s5"><span class="n">06</span>基金：一年一度的“国自然彩票”</a>
+  <a href="#s6"><span class="n">07</span>非升即走：学术版“鱿鱼游戏”</a>
+  <a href="#s7"><span class="n">08</span>指挥棒：KPI、帽子与学术浮躁</a>
+  <a href="#s8"><span class="n">09</span>日常：007是日常，秃头是勋章</a>
+  <a href="#s9"><span class="n">10</span>导学关系：当“师父”变成“老板”</a>
+  <a href="#s10"><span class="n">11</span>心理：在崩溃边缘</a>
+  <a href="#s11"><span class="n">12</span>画像：当代科研人画像（漫画）</a>
+  <a href="#s12"><span class="n">13</span>出路：当你不想再卷</a>
+  <a href="#s13"><span class="n">14</span>参考：数据口径与资料来源</a>
+</div>
+<!-- ===== S1: PORTRAIT ===== -->
+<section class="sec" id="s1">
+<div class="sec-lb">01 — 科研人画像</div>
+<h2 class="sec-ti">当代科研打工人</h2>
+<p class="sec-su">寒窗苦读20+年，身怀绝技却自称"科研民工"。高学历、高智商、高工时、低收入、低满意度——学术圈戏称"三高两低"。</p>
+<div class="qt">"读博穷三代，科研毁一生。""还有什么是人工智能未来无法取代的？研究生——他们的劳动力太廉价了！"<span class="src">——科研圈广为流传的自嘲</span></div>
+<div class="tl" style="margin-top:16px">
+<div class="tl-item"><span class="tl-age">22-28岁 · 硕博在读</span><br/>国家助学金+导师补贴，博士月入3000-5000元。<span class="slang">导师有钱的话过年发红包</span> 延期是常态，延期期间补贴可能"断供"。宿舍上下铺，食堂三件套。一些课题组还兼职"搬砖工""打杂王"。</div>
+<div class="tl-item"><span class="tl-age">28-32岁 · 博士后</span><br/>年薪8-30万不等（顶尖机构可达50-70万）。但"百万年薪"多含水分——有博后反映实际到手约8000。2-3年合同期，拼命发论文攒成果。<span class="slang">临时工中的战斗机</span></div>
+<div class="tl-item"><span class="tl-age">32-38岁 · 青椒期</span><br/>"非升即走"的6年倒计时。助理教授/讲师，同时承担教学+科研+行政。申基金、发论文、带学生、填表格，四线作战。<span class="slang">在PPT和SCI之间反复横跳</span></div>
+<div class="tl-item"><span class="tl-age">38-45岁 · 副教授</span><br/>侥幸存活下来的10-15%。终于拿到"长聘"，但发现副教授也要考核了——"不发则降"。开始带团队、拉项目，从科研工作者变成"科研包工头"。</div>
+<div class="tl-item"><span class="tl-age">45+岁 · 教授/PI</span><br/>金字塔尖的极少数。但还要继续申报、写本子、开会、评审。"学术自由"约等于"自由地996"。<span class="slang">终于不用查文献了，因为要审别人的文献</span></div>
+</div>
+</section>
+<!-- ===== S2: INCOME ===== -->
+<section class="sec" id="s2">
+<div class="sec-lb">02 — 收入</div>
+<h2 class="sec-ti">读了20年书，收入几何？</h2>
+<p class="sec-su">博士生月入约3000-5000元（因地区和课题组差异较大）。寒窗苦读20余年的"投资回报率"，是不少科研人心中的隐痛。科研人员自嘲"拿到的工资还没掉的头发多"。</p>
+<div class="g4" style="margin-bottom:14px">
+<div class="st" style="border-left-color:var(--red)"><div class="st-v mn" style="color:var(--red)">3-5K</div><div class="st-l">博士生月收入</div><div class="st-s">含国家助学金+导师补贴</div></div>
+<div class="st" style="border-left-color:var(--emb)"><div class="st-v mn" style="color:var(--emb)">33.5%</div><div class="st-l">科技工作者</div><div class="st-s">首要压力源：经济</div></div>
+<div class="st" style="border-left-color:var(--tea)"><div class="st-v mn" style="color:var(--tea)">~12-15K</div><div class="st-l">博士毕业生月均</div><div class="st-s">因地区·学科差异较大</div></div>
+<div class="st" style="border-left-color:var(--blu)"><div class="st-v mn" style="color:var(--blu)">33.5%</div><div class="st-l">压力来源：经济</div><div class="st-s">科技工作者调查</div></div>
+</div>
+<div class="cht"><div class="cht-h">科研人 vs 其他行业：收入对比（月薪/元 · 因城市差异较大，取中位估计）</div>
+<div class="css-bar">
+<div class="css-bar-row"><span class="css-bar-label">互联网大厂P7</span><div class="css-bar-track"><div class="css-bar-fill" data-w="100" style="background:var(--tea)"><span class="css-bar-val">40K+</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">金融分析师</span><div class="css-bar-track"><div class="css-bar-fill" data-w="75" style="background:var(--tea)"><span class="css-bar-val">30K</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">医生(主治)</span><div class="css-bar-track"><div class="css-bar-fill" data-w="50" style="background:var(--blu)"><span class="css-bar-val">20K</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label" style="color:var(--red);font-weight:700">高校讲师/助教</span><div class="css-bar-track"><div class="css-bar-fill" data-w="25" style="background:var(--red)"><span class="css-bar-val">8-12K</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label" style="color:var(--emb);font-weight:700">博士后(普通)</span><div class="css-bar-track"><div class="css-bar-fill" data-w="22" style="background:var(--emb)"><span class="css-bar-val">8-10K</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">外卖骑手(高频)</span><div class="css-bar-track"><div class="css-bar-fill" data-w="20" style="background:var(--gld)"><span class="css-bar-val">6.6-9.3K</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label" style="font-size:9px;color:var(--t3)">⚠ 以上均为参考区间，因地区·岗位·资历差异较大</span><div class="css-bar-track"></div></div>
+<div class="css-bar-row"><span class="css-bar-label" style="color:var(--red)">博士在读</span><div class="css-bar-track"><div class="css-bar-fill" data-w="10" style="background:var(--red)"><span class="css-bar-val">3-5K</span></div></div></div>
+</div>
+<div class="cht-f">综合各来源 · 以上为参考区间，实际因地区、资历、学科等因素差异较大 · 骑手数据据美团研究院2024年报(高频定义：月接单≥22天/日均≥6h)</div></div>
+<div class="cd" style="margin-top:14px">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">💸 科研收入的几个"坑"</h4>
+<div class="sol">"合同写20万年薪"→扣完五险一金到卡仅8500/月→<strong>实际到手可能远低于宣传数字</strong></div>
+<div class="sol">"百万年薪招博后"→含地方补贴+住房补贴+出站奖励→在站期间月薪可能仅8K</div>
+<div class="sol">顶尖博后(清华"水木学者")确实能拿到70万/年→但全国能有多少个"水木"？</div>
+<div class="sol">天眼FAST曾招研究岗→年薪约10万→劳务派遣制→"国之重器"配"临时工"</div>
+<div class="sol">生物学副主任研究员→月薪4000多→天天加班到深夜→奖金封顶3万/年</div>
+</div>
+<div class="comic" style="margin-top:14px">
+<div class="comic-title">🎬 场景再现：博士毕业聚餐</div>
+<div class="comic-scene">本科同学：我在大厂，年终奖20万，刚提了特斯拉 🚗
+硕士同学：我做投行，去年bonus够首付了 🏠
+博士（你）：我……我刚中了一篇SCI一区 📄
+全桌：………
+博士（你）：影响因子8.7！！！
+全桌：哦……那个能换钱吗？
+博士（你）：能换……一个去参加"非升即走"面试的资格 🥲
+全桌：（沉默中有人悄悄把招聘APP推给你）</div>
+<div class="comic-caption">——基于真实科研人员社交场景改编</div>
+</div>
+</section>
+<!-- ===== S3: PAPERS ===== -->
+<section class="sec" id="s3">
+<div class="sec-lb">03 — 论文</div>
+<h2 class="sec-ti">Publish or Perish</h2>
+<p class="sec-su">不发表，就出局。据统计，中国2024年SCI论文数约99万篇，位居全球第一。但94%发在国外期刊——用中国纳税人的钱做研究，成果送给国外出版商。</p>
+<div class="big-n"><div class="mn" style="color:var(--red)">99万+</div><small>2024年中国作者SCI论文数 · 全球第一 · 是美国(48万)的近2倍</small></div>
+<div class="g4" style="margin:14px 0">
+<div class="st" style="border-left-color:var(--red)"><div class="st-v mn" style="color:var(--red)">30%</div><div class="st-l">占全球SCI总量</div><div class="st-s">248万篇中的74万（2023；口径：数据库统计/去重规则不同会变）</div></div>
+<div class="st" style="border-left-color:var(--emb)"><div class="st-v mn" style="color:var(--emb)">约94%</div><div class="st-l">发在国外期刊</div><div class="st-s">据2023年统计</div></div>
+<div class="st" style="border-left-color:var(--tea)"><div class="st-v mn" style="color:var(--tea)">675篇</div><div class="st-l">2024年CNS顶刊</div><div class="st-s">Cell+Nature+Science</div></div>
+<div class="st" style="border-left-color:var(--blu)"><div class="st-v mn" style="color:var(--blu)">2.92%</div><div class="st-l">中国SCI期刊占全球</div><div class="st-s">仅280种/9471种总量</div></div>
+</div>
+<div class="cd">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">📝 论文"内卷"的几个切面</h4>
+<div class="sol">"非升即走"考核：6年内发表9篇核心期刊论文，同时还要教学+行政——有人同时操作3-4篇论文才"心里踏实"</div>
+<div class="sol">一篇影响因子≈一定的钱：有的课题组"按IF发钱"——1个影响因子=1000元奖励。发不了高IF，连补贴都拿不到</div>
+<div class="sol">"短平快"研究泛滥："非升即走"的指挥棒催生大量灌水论文——用SCI数量换生存权</div>
+<div class="sol">诚信隐忧：论文数量井喷的同时，中国作者撤稿量也在增加。量上去了，但质量和诚信的警钟在敲响</div>
+<div class="sol">审稿"内卷"：中国学者既要自己发论文，还要帮国际期刊审大量稿件——无偿劳动给外国出版商打工</div>
+</div>
+<div class="phi" style="margin-top:14px"><h4>🤔 论文数量世界第一的悖论</h4><p>中国SCI发文量占全球1/3，<strong>但中国SCI期刊仅占全球2.92%</strong>。94%的论文发在国外期刊意味着：中国纳税人资助的科研成果，由国外出版商（Elsevier、Springer等）收费出售给全世界——包括卖回给中国。中国高校每年花费数十亿元购买国外学术数据库——买回来的，很大一部分是中国学者自己写的论文。这个商业模式挺"精妙"的：<strong>让生产者付费生产，再让生产者付费购买自己的产品</strong>——不过好在开放获取（Open Access）的浪潮正在改变这一点。<span class="slang">学术版"羊毛出在羊身上"</span></p></div>
+</section>
+
+<!-- ===== SAI: AI ===== -->
+<section class="sec" id="sAI">
+<div class="sec-lb">AI — 机遇、风险与下一次技术浪潮</div>
+<h2 class="sec-ti">AI 正在重写科研的“生产函数”</h2>
+<p class="sec-su">它不只是帮你更快写代码、改英文，而是在加速“提出假设 → 证据检验 → 迭代理论”的闭环；同时也会放大伪造、偏差与指标内卷。下面把<strong>能抓住的机会</strong>与<strong>必须规避的坑</strong>说清楚。</p>
+<div class="cht">
+<div class="cht-h">机遇：把时间从“信息摩擦”转移到“高价值判断”</div>
+<div class="g2">
+<div class="st" style="border-left-color:var(--tea)">
+<div class="st-t">01 文献与知识管理</div>
+<div class="st-d">更快定位争议点、方法细节与可复现资源（代码/数据/预印本），把“找资料”变成系统流程。</div>
+</div>
+<div class="st" style="border-left-color:var(--blu)">
+<div class="st-t">02 代码与分析管线</div>
+<div class="st-d">从“写脚本”到“搭管线”：清洗、建模、敏感性分析、自动出图与报告，减少重复劳动。</div>
+</div>
+<div class="st" style="border-left-color:var(--vio)">
+<div class="st-t">03 机制假设生成 + 证伪</div>
+<div class="st-d">AI 可以帮你生成候选机制与可检验预测，但最终仍要用对照实验/准实验/外部验证去证伪。</div>
+</div>
+<div class="st" style="border-left-color:var(--gld)">
+<div class="st-t">04 自驱动实验与自动化</div>
+<div class="st-d">在材料、化学、合成生物等领域，AI+机器人正让“提出配方→实验→更新模型→再实验”的闭环更快。</div>
+</div>
+</div>
+<p class="note">底层逻辑：AI 让“执行”更便宜，所以你的稀缺性会从“能干活”转向“能定义问题、定义变量、定义检验”。</p>
+</div>
+<div class="cht">
+<div class="cht-h">风险：AI 会把科研的“坏习惯”按下加速键</div>
+<div class="g2">
+<div class="st" style="border-left-color:var(--red)">
+<div class="st-t">01 事实性风险：幻觉与伪引用</div>
+<div class="st-d">模型可能输出看似合理但错误的数字、结论或参考文献。最危险的是“半对半错”。<br/><strong>对策</strong>：关键论断回到原始来源；AI 生成引用逐条核验 DOI/卷期页。</div>
+</div>
+<div class="st" style="border-left-color:var(--emb)">
+<div class="st-t">02 科研诚信风险：论文工厂规模化</div>
+<div class="st-d">AI 降低伪造门槛，假稿更像真稿；出版界也用 AI 反制，形成攻防升级。<br/><strong>对策</strong>：原始数据—脚本—图表建立可追溯链；团队做“红队抽查”。</div>
+</div>
+<div class="st" style="border-left-color:var(--cyn)">
+<div class="st-t">03 公平性风险：算力/数据成为新门槛</div>
+<div class="st-d">未来“算力与数据可得性”会像经费一样关键，资源不均可能扩大差距。<br/><strong>对策</strong>：优先开源工具与公开数据；披露模型版本与计算环境。</div>
+</div>
+<div class="st" style="border-left-color:var(--pnk)">
+<div class="st-t">04 评价体系风险：更快产出 ≠ 更好科学</div>
+<div class="st-d">当写作/制图/代码都更快，如果只奖励数量，内卷会被放大。<br/><strong>对策</strong>：把奖励对准可复现、数据共享、方法透明与真实影响。</div>
+</div>
+</div>
+</div>
+<div class="cht">
+<div class="cht-h">未来 3–5 年：你可能看到的技术变革（偏前瞻）</div>
+<div class="g4">
+<div class="st" style="border-left-color:var(--tea)">
+<div class="st-v mn" style="color:var(--tea)">Agent</div>
+<div class="st-t">科研助理“任务流”</div>
+<div class="st-d">从问答升级为自动执行：拉数据→清洗→建模→写报告，并留下审计日志。</div>
+</div>
+<div class="st" style="border-left-color:var(--blu)">
+<div class="st-v mn" style="color:var(--blu)">多模态</div>
+<div class="st-t">领域基础模型</div>
+<div class="st-d">遥感/生态声学/影像/组学等进入“基础模型+小样本微调”的标准范式。</div>
+</div>
+<div class="st" style="border-left-color:var(--vio)">
+<div class="st-v mn" style="color:var(--vio)">复现</div>
+<div class="st-t">自动化可复现检查</div>
+<div class="st-d">期刊与基金更偏好可复现包（代码+数据+环境），AI 用于自动检查与复现。</div>
+</div>
+<div class="st" style="border-left-color:var(--gld)">
+<div class="st-v mn" style="color:var(--gld)">诚信</div>
+<div class="st-t">持续监测</div>
+<div class="st-d">文本、图像、引用网络的异常检测更普遍，科研诚信走向“常态化审计”。</div>
+</div>
+</div>
+<p class="sec-su" style="margin-top:10px">一句话：AI 会让“写出来”更容易，也让“看起来像真的”更容易。未来科研竞争力，更取决于你能否把<strong>好奇心</strong>变成<strong>可检验的问题</strong>，把结论建立在<strong>可复现的证据链</strong>上。</p>
+<p class="note">参考依据：皇家学会《Science in the Age of AI》(2024)强调 AI 将重塑科学方法与研究诚信；Nature 等指出论文工厂与撤稿问题在 AI 时代加剧，出版界用 AI 工具反制；ICMJE 等期刊规范要求披露 AI 使用并由人类作者承担责任。</p>
+</div>
+</section>
+<!-- ===== S4: ACADEMIC MISCONDUCT ===== -->
+<section class="sec" id="s4">
+<div class="sec-lb">04 — 科研诚信</div>
+<h2 class="sec-ti">科研诚信：论文工厂与撤稿风暴</h2>
+<p class="sec-su">截至2024年6月，全球SCI累计撤稿约55000篇，其中涉及中国学者的约27000篇（据Retraction Watch数据库）。2024年上半年新增撤稿约2100篇，涉及中国学者的占比约54%。撤稿原因复杂，既有学术不端，也有技术性问题。</p>
+<div class="big-n"><div class="mn" style="color:var(--red)">约27,000篇</div><small>涉中国学者SCI累计撤稿量 · 据Retraction Watch · 截至2024年6月</small></div>
+<div class="g4" style="margin:14px 0">
+<div class="st" style="border-left-color:var(--red)"><div class="st-v mn" style="color:var(--red)">约54%</div><div class="st-l">2024上半年撤稿占比</div><div class="st-s">全球约2100篇中约1100篇涉中国学者</div></div>
+<div class="st" style="border-left-color:var(--emb)"><div class="st-v mn" style="color:var(--emb)">17000+</div><div class="st-l">2021年以来撤稿</div><div class="st-s">Nature统计·涉中国合著者·含多种原因</div></div>
+<div class="st" style="border-left-color:var(--tea)"><div class="st-v mn" style="color:var(--tea)">9600+</div><div class="st-l">Hindawi单社撤稿</div><div class="st-s">8200篇涉中国作者</div></div>
+<div class="st" style="border-left-color:var(--vio)"><div class="st-v mn" style="color:var(--vio)">15所</div><div class="st-l">2024首批通报高校</div><div class="st-s">国自然基金委·32篇论文</div></div>
+</div>
+<div class="cd">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">🏭 "论文工厂"：学术界的造假流水线</h4>
+<div class="sol"><strong>什么是论文工厂？</strong>——第三方公司提供"一条龙"服务：伪造实验数据、AI生成图片、虚构同行评议专家、代写代投。客户付费，坐等"发表"</div>
+<div class="sol"><strong>一把可疑钢尺</strong>：某国际期刊撤稿说明中，同一把带划痕的钢尺图像出现在4篇不同署名、不同期刊的论文中——因为它们都出自同一家"论文工厂"</div>
+<div class="sol"><strong>图片"复制粘贴"</strong>：通报案例中，大量论文存在"图片内部或图片间重复""同一张照片不同裁剪反复利用"——工业化造假的典型痕迹</div>
+<div class="sol"><strong>虚构合著者</strong>：某高校教师在11篇论文中虚构国外大学研究者作为署名作者——一个根本不存在的人，"发表"了11篇SCI</div>
+<div class="sol"><strong>买卖论文</strong>：基金委通报显示，多起案件涉及"买卖实验数据""论文系买卖所得"——论文已经成为明码标价的商品</div>
+</div>
+<div class="cht"><div class="cht-h">撤稿四大主因</div>
+<div class="css-bar">
+<div class="css-bar-row"><span class="css-bar-label">数据不可靠</span><div class="css-bar-track"><div class="css-bar-fill" data-w="90" style="background:var(--red)"><span class="css-bar-val">第一大原因</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">同行评议造假</span><div class="css-bar-track"><div class="css-bar-fill" data-w="75" style="background:var(--emb)"><span class="css-bar-val">虚构审稿人</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">论文工厂伪造</span><div class="css-bar-track"><div class="css-bar-fill" data-w="65" style="background:var(--gld)"><span class="css-bar-val">第三方代写代投</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">抄袭剽窃</span><div class="css-bar-track"><div class="css-bar-fill" data-w="50" style="background:var(--vio)"><span class="css-bar-val">包括自我抄袭</span></div></div></div>
+</div>
+<div class="cht-f">来源：CSDN 2024上半年SCI撤稿盘点 · Retraction Watch数据库</div></div>
+<div class="phi"><h4>🤔 科研诚信</h4><p>学术造假当然有个人选择的成分，但当它发展成了<strong>产业链</strong>，仅仅指责个人恐怕不够。当论文数量直接决定职称晋升、基金获批、"帽子"评选、甚至能否留校——当"不发表就出局"成为不少青椒面临的现实压力——在这样的压力下，造假的风险和收益天平就容易倾斜。这不是为造假开脱——而是说，除了惩罚个体，或许更需要思考如何让"老实做研究"成为更优选项。正如中科院专家所言：<strong>"科研诚信建设在当下的中国已到了刻不容缓的地步。"</strong> 2025年11月，科技部会同有关部门正式部署"学术不端撤稿论文专项整治行动"——这是好的开始。但从长远看，减少造假的动机，可能比加大惩罚力度更治本。</p></div>
+<div class="qt">"学术不端行为固然难辞其咎，但目前学术界存在的<strong>浮躁风气、片面追求论文数量</strong>也助长了这种现象。大量不法第三方实验技术服务公司炮制了大量的虚假数据和图片——这是被曝光的主要原因。"<span class="src">——MedSci · 撤稿分析</span></div>
+<div class="comic">
+<div class="comic-title">🎭 场景再现：论文工厂的"菜单"</div>
+<div class="comic-scene">📋 某论文代写公司"套餐价目表"（暗网实录）
+
+🥉 铜牌套餐 · ¥3-5万
+   → SCI四区 · IF 1-2 · 周期6-8个月
+   → 含数据、图表、代写、代投、代修改
+
+🥈 银牌套餐 · ¥8-15万
+   → SCI二/三区 · IF 3-6 · 周期8-12个月
+   → 含全套实验数据伪造 + 同行评议"安排"
+
+🥇 金牌套餐 · ¥20-50万
+   → SCI一区 · IF 8+ · "保发"
+   → VIP通道，审稿人"熟人"，包修改到接收
+
+💎 钻石套餐 · 价格面议
+   → Nature子刊级别 · 不保证 · 但"尽力安排"
+
+⚠️ 免责声明：以上均为真实存在的地下产业
+   每年产值估计达数十亿元人民币
+   客户画像：晋升焦虑的青椒 &gt; 评帽子的中年PI &gt; 混学位的在职研究生</div>
+<div class="comic-caption">——当学术论文变成明码标价的商品，最先被标价的，其实是做学问的人</div>
+</div>
+</section>
+<!-- ===== S5: FUNDING ===== -->
+<section class="sec" id="s5">
+<div class="sec-lb">05 — 基金</div>
+<h2 class="sec-ti">一年一度的"国自然彩票"</h2>
+<p class="sec-su">青年科学基金项目资助率约15.54%（2024；资助23,226项；按公开统计口径估算）——“36万人/5万个名额”为概括性说法：全年集中接收项目受理约38.31万项（2024），不同口径下“名额”可指面上或全部资助项目总数。从"申二停一"到取消限制，越来越卷。青椒们每年3月写本子、8月等结果，堪称科研界的"高考"。</p>
+<div class="cht"><div class="cht-h">2024年国自然各类项目资助率</div>
+<div class="css-bar">
+<div class="css-bar-row"><span class="css-bar-label">青年基金</span><div class="css-bar-track"><div class="css-bar-fill" data-w="78" style="background:var(--tea)"><span class="css-bar-val">15.54%</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">地区基金</span><div class="css-bar-track"><div class="css-bar-fill" data-w="63" style="background:var(--emb)"><span class="css-bar-val">12.49%</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label" style="color:var(--red);font-weight:700">面上项目</span><div class="css-bar-track"><div class="css-bar-fill" data-w="58" style="background:var(--red)"><span class="css-bar-val">11.66%</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">杰青</span><div class="css-bar-track"><div class="css-bar-fill" data-w="36" style="background:var(--vio)"><span class="css-bar-val">7.08%</span></div></div></div>
+</div>
+<div class="cht-f">2024年面上项目申请近18万项，资助率较2023年降5.33个百分点</div></div>
+<div class="cd" style="margin-top:14px">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">📊 越来越卷的残酷数据</h4>
+<div class="g2">
+<div class="fc" style="border-top-color:var(--red)"><h4 style="color:var(--red)">面上项目</h4><p>申请近<strong style="color:var(--t0)">18万项</strong>，资助20758项。2024年取消"申二停一"后，大量资深教授涌入，资助率从约17%降至<strong style="color:var(--t0)">11.66%</strong>。</p></div>
+<div class="fc" style="border-top-color:var(--tea)"><h4 style="color:var(--tea)">青年基金</h4><p>申请近<strong style="color:var(--t0)">15万项</strong>，资助23226项(15.54%)。是青椒的"第一桶金"，直接影响去留。资助率已从2013年的<strong style="color:var(--t0)">25.20%</strong>降至此水平。</p></div>
+</div></div>
+<div class="comic" style="margin-top:14px">
+<div class="comic-title">🎬 场景再现：国自然放榜日</div>
+<div class="comic-scene">🗓️ 每年8月中下旬，科研界的"高考出分日"
+
+[状态1] 登录NSFC系统，看到"进展报告"按钮出现 → 🎉 中了！
+→ 朋友圈：感谢评审专家！感谢团队！感恩一路走来！
+→ 导师：不错，明年继续冲面上
+
+[状态2] 刷了50遍页面，还是"评审中" → 😰 凉了
+→ 朋友圈：今天天气真好啊（配一张窗外照片）
+→ 内心：我的5年考核期还剩2年，人生还有什么意义
+
+[状态3] 连续第三年未中 → 🫠
+→ 开始研究"公务员报名条件"
+→ 安慰自己：运气成分不容忽视，跟本子质量无关</div>
+<div class="comic-caption">——综合科研论坛、知乎、小红书真实帖子改编</div>
+</div>
+<div class="phi"><h4>🧩 基金申请的"先有鸡还是先有蛋"</h4><p>基金申请的压力不仅在于"僧多粥少"——更在于它制造了一种<strong>倒错的因果关系</strong>：你需要先有成果才能拿到钱去做出成果。青年基金要求申请者展示"研究基础"，但没有钱怎么做出基础？结果就是：每年3月全国数十万科研人集体进入"写本子"模式，把本该做研究的时间花在论证"为什么应该给我钱让我去做研究"上。<br/><br/>更深层的问题是：<strong>竞争性资助体系天然鼓励"确定性"而惩罚"冒险性"</strong>——评审专家更倾向于资助"大概率能做出来"的项目，而真正具有突破性的想法往往因为"风险太大"被淘汰。有意思的是，回顾科学史，不少重大发现最初看起来都"不太靠谱"。如何在有限资源下给"冒险"留一些空间，是全世界科研资助体系共同面对的难题。</p></div>
+</section>
+<!-- ===== S6: TENURE TRACK ===== -->
+<section class="sec" id="s6">
+<div class="sec-lb">06 — 非升即走</div>
+<h2 class="sec-ti">学术版"鱿鱼游戏"</h2>
+<p class="sec-su">据公开信息，已有110余所高校实施"非升即走"或类似考核机制。个别高校的首批考核淘汰率较高（如据报道某校119人中仅4人通过），但各校标准和通过率差异很大。</p>
+<div class="big-n"><div class="mn" style="color:var(--red)">普遍较高</div><small>"非升即走"淘汰率 · 各校差异大 · 据报道个别高校首批通过率不足5%</small></div>
+<div class="cd" style="margin-top:14px">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">🎮 中美"非升即走"对比</h4>
+<div class="g2">
+<div class="fc" style="border-top-color:var(--red)"><h4 style="color:var(--red)">🇨🇳 中国版</h4><p>入校筛选强度低 → 大量招人 → 3-6年后<strong style="color:var(--t0)">大比例淘汰</strong> → "先入校后竞争"的锦标赛。拿到"长聘"后还要绩效考核，"不发则降"。客观上形成了<strong style="color:var(--t0)">低成本高产出</strong>的局面。</p></div>
+<div class="fc" style="border-top-color:var(--tea)"><h4 style="color:var(--tea)">🇺🇸 美国版</h4><p>入校筛选极其严格 → 少量精选 → 预聘后<strong style="color:var(--t0)">50-84%获得终身教职</strong>（哈佛84%晋升副教授）。拿到tenure后原则上可以"躺平"，薪酬提升，只需教学。</p></div>
+</div></div>
+<div class="cd" style="margin-top:14px">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">⚡ "非升即走"的三大争议</h4>
+<div class="sol"><strong>"不达标就出局"</strong>：青年教师压力倍增。复旦悲剧（39岁学者杀害49岁院领导）曾引发社会广泛讨论</div>
+<div class="sol"><strong>"重论文轻教学"</strong>：科研产出几乎是最硬的考核指标，教学投入"心有余而力不足"——<span class="slang">上课是义务，论文是KPI</span></div>
+<div class="sol"><strong>催生"短平快"</strong>：为了在6年内凑够论文数，青椒们倾向于做风险低、周期短的研究，<strong>真正需要长期积累的原创性研究反而没人敢做</strong></div>
+</div>
+<div class="phi" style="margin-top:14px"><h4>🔥 "非升即走"的荒诞现实</h4><p>某高校曾开出"百万年薪"招聘数千名青年人才，再以接近90%的淘汰率将他们拒之门外。有人计算：高校用很少的成本得到了很高的科研绩效——博后们拼命发论文、申基金，成果挂学校名下，出站时大部分人拿着一纸"不续聘"通知离开。<strong>"一些高校以研究员名义大量招收博士后，大多数人留不下来——说是'非升即走'，实际上没有升的，都走了。"</strong> 有地方高校甚至规定：博士5年未升副教授需转岗后勤、保安。<span class="slang">从实验室到保安亭，只差一个考核期</span> 竞争本身不是坏事，但值得思考的是：<strong>现有的考核标准，是否真的在筛选学术潜力？</strong>如果留下来的更多是擅长短期高产的人，而非最有长期创造力的人——那或许不是人的问题，而是尺子的问题。</p></div>
+</section>
+<!-- ===== S7: KPI & HATS ===== -->
+<section class="sec" id="s7">
+<div class="sec-lb">07 — 指挥棒</div>
+<h2 class="sec-ti">KPI、帽子与学术浮躁</h2>
+<p class="sec-su">"破五唯"喊了多年，但论文仍是硬通货。"帽子"决定资源分配，"指挥棒"催生急功近利——问题可能不在实验室里，而在评价体系的设计上。</p>
+<div class="cd">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">🎩 "帽子"生态链：学术界的资源分配链</h4>
+<div class="sol"><strong>院士</strong> → 学术界的"封神榜"。一旦当选，资源、话语权、行政权力加身。评选过程中的"拉票""打招呼"屡禁不止</div>
+<div class="sol"><strong>杰青/长江学者</strong> → "准院士"级别。年薪可达百万。但获评后部分人从一线研究转向"学术包工头"——拉项目、分任务、挂名论文</div>
+<div class="sol"><strong>优青/青千</strong> → 青年学者的"敲门砖"。没有"帽子"，在很多高校连独立PI都做不了。简历上"无帽"≈"无能"</div>
+<div class="sol"><strong>四青以下</strong> → "普通青椒"。没帽子=没经费=没学生=没平台=发不了好论文=更没帽子——<span class="hl hl-r">死循环</span></div>
+</div>
+<div class="phi"><h4>🎯 评价标准的三个待解之题</h4><p><strong>第一重：重数量轻质量。</strong>评职称看论文数、看影响因子、看基金数——真正的学术贡献无法被量化，于是大家一起灌水。<strong>结果：中国SCI论文数全球第一，但诺贝尔奖（自然科学类）迄今仅屠呦呦1人——论文是科研的副产品，不是科研本身。把副产品当成了主产品来考核，方向就跑偏了。</strong><br/><br/><strong>第二重：重短期轻长期。</strong>"非升即走"6年考核期逼迫青椒做"短平快"研究——3个月出数据、半年发论文。<strong>但要做十年磨一剑的原创性研究，六年考核期就成了紧箍咒——刀还没磨好，考核期先到了。</strong><br/><br/><strong>第三重：重"帽子"轻实力。</strong>同样水平的研究者，有"杰青"帽子和没有，获得的资源天差地别。<strong>学术评价变成了"帽子"的竞赛，而非知识的竞赛。</strong> 有人戏称中国学术界是"帽子经济"——戴帽的吃肉，无帽的喝汤。一个值得反思的现象是：评判科学价值的标准，有时更接近行政逻辑而非学术逻辑。</p></div>
+<div class="cht"><div class="cht-h">"破五唯"进展：理想 vs 现实</div>
+<div class="css-bar">
+<div class="css-bar-row"><span class="css-bar-label">不唯论文</span><div class="css-bar-track"><div class="css-bar-fill" data-w="25" style="background:var(--red)"><span class="css-bar-val">口号响·落地弱</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">不唯帽子</span><div class="css-bar-track"><div class="css-bar-fill" data-w="15" style="background:var(--red)"><span class="css-bar-val">帽子仍是硬通货</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">不唯职称</span><div class="css-bar-track"><div class="css-bar-fill" data-w="30" style="background:var(--emb)"><span class="css-bar-val">有改善·仍刚性</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">不唯学历</span><div class="css-bar-track"><div class="css-bar-fill" data-w="20" style="background:var(--emb)"><span class="css-bar-val">招聘仍卡第一学历</span></div></div></div>
+<div class="css-bar-row"><span class="css-bar-label">不唯奖项</span><div class="css-bar-track"><div class="css-bar-fill" data-w="35" style="background:var(--gld)"><span class="css-bar-val">相对改善最多</span></div></div></div>
+</div>
+<div class="cht-f">"破五唯"2018年提出至今 · 实际执行情况综合评估</div></div>
+<div class="cd" style="margin-top:14px">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">🏃 急功近利的恶性循环</h4>
+<div class="sol"><strong>科研经费分配"马太效应"</strong>：有帽子的人更容易拿到经费 → 有经费才能发好论文 → 发好论文才能评更高帽子 → 强者恒强，弱者出局</div>
+<div class="sol"><strong>"短平快"横行</strong>：真正的基础研究需要5-10年，但考核周期只有3-6年。结果：跟风热点、重复实验、拆分论文成"最小可发表单元"</div>
+<div class="sol"><strong>行政权力介入学术</strong>：谁当院长、谁进学术委员会，往往不是看学术水平，而是看行政级别和"帽子"。有人自嘲："在中国高校，处长比教授有权"</div>
+<div class="sol"><strong>科研经费"买醋的钱不能打酱油"</strong>：报账审计极其繁琐，科研人员花在填表、报账上的时间可能比做实验还多。有教授感叹："我不是科学家，我是会计"</div>
+</div>
+<div class="qt">"中国科协原副主席指出：原本对医生的最高评价标准应该是患者是否满意，做手术时大家千方百计找动刀子最好的，谁也不会根据论文发表数量去找医生。而目前的评价标准却是'一刀切'式的。"<span class="src">——中国科学院学部 · 科研诚信讨论</span></div>
+<div class="comic">
+<div class="comic-title">🎭 场景再现："帽子"的影响力有多大</div>
+<div class="comic-scene">同一个人，同一项研究成果——
+
+没有"帽子"时：
+  申请经费 → "创新性不足，建议进一步完善" ❌
+  投稿期刊 → "The manuscript is not suitable" ❌
+  申请职称 → "成果不够突出，建议继续积累" ❌
+
+评上"杰青"后：
+  申请经费 → "该项目具有重要的科学意义" ✅ 500万
+  投稿期刊 → "We are pleased to accept" ✅
+  申请职称 → "学术成果卓越，一致通过" ✅
+
+🎩 帽子：科研界的"滤镜"
+   戴上 → 处处绿灯
+   没有 → 处处碰壁
+
+感慨：同样的研究，换顶帽子就换了命运——这多少有点魔幻</div>
+<div class="comic-caption">——这不是段子，这是无数青椒的真实经历</div>
+</div>
+</section>
+<!-- ===== S8: TIME ===== -->
+<section class="sec" id="s8">
+<div class="sec-lb">08 — 日常</div>
+<h2 class="sec-ti">007是日常，秃头是勋章</h2>
+<p class="sec-su">科研没有"下班"的概念。实验不等人，论文有deadline，老板在微信群@你的时间不分昼夜。多项研究提示：超长工时与更高抑郁/心理问题风险相关（常见口径为周工时≥60小时；不同人群与定义下OR约1.1–1.9不等，非因果结论）。</p>
+<div class="cd">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">⏰ 科研人的一天（理想 vs 现实）</h4>
+<div class="g2">
+<div class="fc" style="border-top-color:var(--tea)"><h4 style="color:var(--tea)">✨ 理想版</h4><p>9:00 到实验室<br/>10:00 开始实验<br/>12:00 午餐<br/>14:00 读文献<br/>17:00 数据分析<br/>18:00 下班<br/>19:00 健身/社交<br/>22:00 入睡</p></div>
+<div class="fc" style="border-top-color:var(--red)"><h4 style="color:var(--red)">💀 现实版</h4><p>8:30 到实验室（因为导师要打卡）<br/>9:00-12:00 实验（中间帮师弟解决仪器问题×3）<br/>12:30 食堂吃饭（边吃边改论文）<br/>14:00-18:00 实验失败×2+开组会<br/>18:30 食堂（边吃边回导师微信）<br/>19:00-23:00 写论文/处理数据/改PPT<br/>23:30 回宿舍（继续改论文）<br/>1:00 入睡（如果焦虑不失眠的话）</p></div>
+</div></div>
+<div class="cd" style="margin-top:14px">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">📋 科研人时间分配真相</h4>
+<div class="lvl"><span class="lvl-label">做实验/研究</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--tea);width:35%">35%</div></div><span class="lvl-val">核心</span></div>
+<div class="lvl"><span class="lvl-label">写论文/改论文</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--emb);width:20%">20%</div></div><span class="lvl-val">保命</span></div>
+<div class="lvl"><span class="lvl-label">写基金申请书</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--red);width:15%">15%</div></div><span class="lvl-val">求生</span></div>
+<div class="lvl"><span class="lvl-label">开会/报告/汇报</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--blu);width:12%">12%</div></div><span class="lvl-val">表演</span></div>
+<div class="lvl"><span class="lvl-label">填表/报账/行政</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--vio);width:10%">10%</div></div><span class="lvl-val">折磨</span></div>
+<div class="lvl"><span class="lvl-label">教学</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--gld);width:8%">8%</div></div><span class="lvl-val">义务</span></div>
+<p style="font-size:10px;color:var(--t3);margin-top:6px;text-align:center">基于多项调查综合估算 · 实际因人而异</p>
+</div>
+</section>
+<!-- ===== S9: ADVISOR RELATIONS ===== -->
+<section class="sec" id="s9">
+<div class="sec-lb">09 — 导学关系</div>
+<h2 class="sec-ti">当"师父"变成"老板"</h2>
+<p class="sec-su">导师负责制本是学术传承的保障，但在保障机制尚不完善的情况下，"指导关系"异化为"雇佣关系"甚至"人身依附关系"——压榨劳动、侵占成果、人格侮辱、性骚扰，每一桩都可能成为压垮年轻生命的最后一根稻草。</p>
+<div class="cd">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">⚠️ 导学关系失序：近年典型案例类型</h4>
+<div class="sol"><strong>劳动剥削型</strong>：要求研究生长期为导师的私人公司从事运送货物、分装溶剂、担任客服、处理财务等与科研无关的工作。有导师要求学生代取快递、开车接送家人、去家里打扫卫生、为其子女做作业</div>
+<div class="sol"><strong>成果侵占型</strong>：学生辛苦完成的研究成果被导师强行抢占一作署名，甚至不经学生同意擅自发表。有导师规定"课题组所有论文第一作者必须是我"</div>
+<div class="sol"><strong>经济盘剥型</strong>：截留研究生工资和补贴、克扣交通补贴、要求学生上缴实习工资。有课题组要求学生"自费做实验"——试剂费从补贴里扣</div>
+<div class="sol"><strong>人格控制型</strong>：要求学生喊"爸爸"、日常打卡汇报行踪、限制社交和恋爱、阻挠学生报考其他学校读博——"读了我的博士，你的人生就是我的"</div>
+<div class="sol"><strong>性骚扰型</strong>：利用导师权力对学生实施性骚扰。有教师借讨论学术问题之名约学生到办公室实施骚扰。多起案件中，受害学生因恐惧学业受阻而长期沉默</div>
+</div>
+<div class="g2" style="margin-top:14px">
+<div class="fc" style="border-top-color:var(--red)"><h4 style="color:var(--red)">💔 被压垮的年轻生命</h4><p>近年来研究生坠亡、自杀事件频发，死因多指向导师压榨、论文答辩受阻、学业绝望。有学生遗书控诉"无法完成导师要求"；有学生说"读了他的博士，我的人生就是他的了"；有学生在实验室结束了自己的生命。每一起事件都让人心痛。这些悲剧提醒我们：<strong>在导学关系中建立更有效的沟通渠道和保护机制</strong>，不是锦上添花，而是刻不容缓。</p></div>
+<div class="fc" style="border-top-color:var(--tea)"><h4 style="color:var(--tea)">🔍 联名举报在增加</h4><p>2024年仅上半年就出现多起集体举报：某高校15名研究生联名举报导师师德失范；某大学学子实名控诉课题组压榨——论文署名问题、劳务补贴问题。联名举报说明<strong>个体维权成本太高，只有集体行动才可能被听见</strong>。但即便如此，举报后能得到彻底处理的仍是少数。</p></div>
+</div>
+<div class="phi"><h4>🔬 权力结构分析：权力失衡何以发生？</h4><p><strong>话语权集中</strong>——导师在很大程度上影响着学生的毕业、发表和推荐信，天然掌握较大的话语权。在这种不对等关系中，学生往往处于弱势。<br/><br/><strong>反馈机制不足</strong>——许多高校的导师考评和学生投诉通道仍不够完善。学生担心投诉后影响毕业，往往选择沉默——直到问题积累到难以承受。<br/><br/><strong>文化惯性</strong>——中国传统"师道尊严"被异化为"师徒人身依附"。"天地君亲师""一日为师终身为父"——这些观念如果缺少现代契约精神的平衡，有时会成为不健康师生关系的文化土壤。<br/><br/><strong>利益捆绑</strong>——导师需要学生做实验、发论文来完成自己的KPI。学生有时更像是帮导师完成考核的助手，而非被悉心培养的独立学者。当"培养"和"使用"之间的边界变得模糊，师生关系就容易走样。</p></div>
+<div class="cd" style="margin-top:14px">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">🔥 过劳：科研人的身体在报警</h4>
+<div class="sol">近年多起青年学者猝死事件引发关注：30多岁的博士后在实验室猝死、40出头的副教授因心梗倒在办公桌前——<strong>过劳已成为科研界的隐形杀手</strong></div>
+<div class="sol">中科院心理所数据：日均工作超10小时的人群，抑郁风险升高23%。而科研人员的平均工作时长远超这一标准</div>
+<div class="sol">长期熬夜、饮食不规律、缺乏运动、精神高度紧张——科研人的身体透支是系统性的，而非偶发的</div>
+<div class="sol">更残酷的现实：多数科研人员没有加班费、没有工伤认定、甚至没有完善的医疗保障。有博士后猝死后家属发现其社保未缴满——<span class="hl hl-r">"用命换的论文，连命都赔不起"</span></div>
+</div>
+<div class="qt">"导师对于研究生的影响力是不言而喻的，甚至可以说，一个研究生的读研生涯是否顺遂，导师有绝对的话语权。师生之间并不平等——学生在社会经验、法律意识、自我保护能力上远远弱于教师。特别是研究生阶段，导师手中无形的权力，是客观存在的。"<span class="src">——科学网 · 研究生自杀背后：异化的师生关系</span></div>
+<div class="comic">
+<div class="comic-title">🎭 场景再现：导师的N种类型</div>
+<div class="comic-scene">🅰️ 放养型导师
+   学生：老师，我的课题方向还没定……
+   导师：嗯，你自己想想吧。（已读不回×365天）
+   学生：（毕业论文全靠自学，导师连名字都记不全）
+
+🅱️ 压榨型导师
+   导师：实验室周末不休息。节假日轮班。
+   导师：你的论文我通讯作者，你二作。
+   导师：顺便帮我接一下孩子放学。
+   学生：（微笑中带着泪水）
+
+🅲️ 学术型导师（稀有度：★★★★★）
+   导师：你的兴趣方向是什么？我们一起讨论。
+   导师：这篇论文你一作，我只提供指导意见。
+   导师：最近压力大吗？劳逸结合很重要。
+   学生：（感动到哭，立刻发朋友圈感恩）
+
+🅳️ PUA型导师
+   导师：你这水平，哪个课题组要你？
+   导师：你看看隔壁组的学生，人家一年三篇SCI。
+   导师：不是我逼你，是你自己不够努力。
+   学生：（连续失眠第47天，开始怀疑人生）
+
+📊 分布概率（非官方民间估算）：
+   🅰️ 30%  🅱️ 35%  🅲️ 10%  🅳️ 25%</div>
+<div class="comic-caption">——遇到🅲️型导师的概率，比中国自然面上还低</div>
+</div>
+</section>
+<!-- ===== S10: MENTAL HEALTH ===== -->
+<section class="sec" id="s10">
+<div class="sec-lb">10 — 心理健康</div>
+<h2 class="sec-ti">在崩溃边缘</h2>
+<p class="sec-su">日均工作超10小时者抑郁风险升高23%。18-24岁青年抑郁风险检出率高达24.1%。当"非升即走"的利剑悬顶、论文被拒的邮件不断——科研人的心理防线岌岌可危。</p>
+<div class="g4" style="margin-bottom:14px">
+<div class="st" style="border-left-color:var(--red)"><div class="st-v mn" style="color:var(--red)">+23%</div><div class="st-l">日工作超10h</div><div class="st-s">抑郁风险升高</div></div>
+<div class="st" style="border-left-color:var(--emb)"><div class="st-v mn" style="color:var(--emb)">24.1%</div><div class="st-l">18-24岁抑郁风险</div><div class="st-s">检出率·青年最高</div></div>
+<div class="st" style="border-left-color:var(--tea)"><div class="st-v mn" style="color:var(--tea)">33.5%</div><div class="st-l">经济压力</div><div class="st-s">科技工作者首要压力源</div></div>
+<div class="st" style="border-left-color:var(--vio)"><div class="st-v mn" style="color:var(--vio)">6.5%</div><div class="st-l">持续抑郁症状</div><div class="st-s">成年人·≥3症状·≥5天/周</div></div>
+</div>
+<div class="cd">
+<h4 style="font-size:14px;font-weight:700;margin-bottom:14px">🧠 科研人的心理压力来源</h4>
+<div class="lvl"><span class="lvl-label">论文发表压力</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--red);width:92%">🔴🔴🔴🔴🔴</div></div><span class="lvl-val">致命</span></div>
+<div class="lvl"><span class="lvl-label">基金申请焦虑</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--red);width:88%">🔴🔴🔴🔴</div></div><span class="lvl-val">窒息</span></div>
+<div class="lvl"><span class="lvl-label">"非升即走"威胁</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--emb);width:85%">🟠🟠🟠🟠</div></div><span class="lvl-val">悬顶</span></div>
+<div class="lvl"><span class="lvl-label">经济收入焦虑</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--emb);width:75%">🟠🟠🟠</div></div><span class="lvl-val">扎心</span></div>
+<div class="lvl"><span class="lvl-label">导师/人际关系</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--gld);width:65%">🟡🟡🟡</div></div><span class="lvl-val">复杂</span></div>
+<div class="lvl"><span class="lvl-label">婚恋/家庭压力</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--blu);width:60%">🔵🔵🔵</div></div><span class="lvl-val">无暇</span></div>
+<div class="lvl"><span class="lvl-label">同辈比较</span><div class="lvl-bar"><div class="lvl-fill" style="background:var(--vio);width:55%">🟣🟣</div></div><span class="lvl-val">暗伤</span></div>
+</div>
+<div class="qt" style="margin-top:14px">"科研人员大多是寒窗苦读20余年的高材生，对高回报的期待不言而喻，然而现实是很多科研人员'拿到的工资还没掉的头发多'——科技工作者自嘲为'三高两低'人群：<strong>高风险、高强度、高投入，收入低、满意度低。</strong>"<span class="src">——澎湃新闻</span></div>
+<div class="phi"><h4>🔬 深层洞察：科研人的心理困境不是"抗压能力差"</h4><p>当我们谈论科研人的心理健康，最常见的误解是"这届年轻人不够坚强"。但问题往往不只出在个体的心理韧性上——更在于<strong>科研人面对的不确定性实在太多、太密集了</strong>。<br/><br/>科研本身就充满不确定性：实验可能失败，论文可能被拒，方向可能走错。这是科学的本质，本不该成为压力源。但当环境叠加了另一层不确定性——你不知道6年后能不能留下，不知道基金能不能中，不知道导师会不会在毕业论文上卡你——科研的"智识冒险"就变成了"生存博弈"。<br/><br/>理想的状态是：科研人只需要对抗科学本身的不确定性（这反而是乐趣所在），而不必同时焦虑生存层面的不确定性。前者激发创造力，后者消耗生命力。好消息是，很多高校已经开始注意到这一点，在改善中。</p></div>
+</section>
+<!-- ===== S11: COMICS ===== -->
+<section class="sec" id="s11">
+<div class="sec-lb">11 — 日常漫画</div>
+<h2 class="sec-ti">当代科研人画像</h2>
+<p class="sec-su">如果科研生活是一部漫画，那它一定是黑色幽默的。</p>
+<div class="comic">
+<div class="comic-title">🎭 第一幕：科研人的社交名片</div>
+<div class="comic-scene">       ╭──────────────────╮
+       │   🎓 Dr. 张三              │
+       │   某985大学 · 助理教授      │
+       │   ──────────────          │
+       │   📄 SCI论文: 26篇          │
+       │   💰 年薪: 12万(税前)       │
+       │   🏠 住房: 学校周转房40m²    │
+       │   🚗 座驾: 地铁11号线       │
+       │   ⏰ 工时: 007            │
+       │   💇 发量: 日渐稀疏          │
+       │   🎯 目标: 活过考核期        │
+       │   ──────────────          │
+       │   座右铭: 来都来了           │
+       ╰──────────────────╯</div>
+<div class="comic-caption">——看似调侃，其实都有生活的影子</div>
+</div>
+<div class="comic" style="margin-top:14px">
+<div class="comic-title">🎭 第二幕：科研人的五个阶段</div>
+<div class="comic-scene">阶段1⃣ 入学：「我要改变世界！我要发Nature！」🌟
+         └→ 信心满满，觉得自己是被选中的孩子
+
+阶段2⃣ 一年后：「好难啊……不过总会好的吧？」😅
+         └→ 实验连续失败3个月，文献越读越迷茫
+
+阶段3⃣ 三年后：「我是谁？我在哪？我在干什么？」🫠
+         └→ 论文被拒×5，导师说"再改改"
+
+阶段4⃣ 毕业前：「求求了，只要能毕业就行……」😭
+         └→ 从Nature降级到SCI四区，只求能发就行
+
+阶段5⃣ 毕业后：「非升即走6年倒计时开始！」💀
+         └→ 发现博士阶段竟然是人生最轻松的时光</div>
+<div class="comic-caption">——科研人的心路历程，残忍而真实</div>
+</div>
+<div class="comic" style="margin-top:14px">
+<div class="comic-title">🎭 第三幕：科研人的"四大名著"</div>
+<div class="comic-scene">📕《论文西游记》
+   唐僧（你）历经九九八十一次拒稿，终于取得一篇SCI一区
+
+📗《基金红楼梦》
+   满纸荒唐言，一把辛酸泪。写了74页本子，最终"不予资助"
+
+📘《非升即走水浒传》
+   108条好汉（青椒）齐聚梁山（985高校），最终活下来的只有……4个
+
+📙《导师三国演义》
+   三个课题组尔虞我诈，抢学生、抢仪器、抢经费——合久必分，分久必合</div>
+<div class="comic-caption">——中国科研界的史诗巨著</div>
+</div>
+<div class="comic" style="margin-top:14px">
+<div class="comic-title">🎭 第四幕：审稿人的量子态</div>
+<div class="comic-scene">📩 投稿成功！状态：Under Review
+
+⏳ 第1周：审稿人1 ✅ Accept  审稿人2 ✅ Minor revision
+   → 你：太好了！稳了！！🎉
+
+⏳ 第8周：审稿人3终于出现
+   → 审稿人3：❌ Reject。"创新性不足，建议另投他刊"
+   → 你：？？？
+
+⏳ 第9周：编辑决定
+   → "Based on the reviewers' comments... Major Revision"
+   → 你开始逐条回复长达47页的审稿意见
+   → 其中包含"请补充XX实验"——那个实验需要3个月
+
+⏳ 第20周：二审
+   → 审稿人1和2满意了
+   → 审稿人3：「我之前的意见你没有充分回应」
+   → 你：😇（微笑中透露着绝望）</div>
+<div class="comic-caption">——审稿人3，科研界的"薛定谔的猫"</div>
+</div>
+</section>
+<!-- ===== S12: SOLUTIONS ===== -->
+<section class="sec" id="s12">
+<div class="sec-lb">12 — 出路</div>
+<h2 class="sec-ti">黎明前的微光</h2>
+<p class="sec-su">困境真实存在，但改变也在发生。政策在调整，声音在被听见。科研不该是"用命换编制"的赌博。</p>
+<div class="g2" style="margin-top:14px">
+<div class="cd"><h4 style="font-size:14px;font-weight:700;color:var(--tea);margin-bottom:10px">✅ 正在发生的好事</h4>
+<div class="sol">国自然改革：2025年增加青年资助比例，青年项目占比不低于45%</div>
+<div class="sol">女性青基年龄从35放宽至40岁——考虑生育影响</div>
+<div class="sol">多所985高校调整"非升即走"：延长考核期、增设缓冲岗位</div>
+<div class="sol">博士生待遇改革：部分高校将奖助金调至≥7万/年(5835元/月)</div>
+<div class="sol">深圳/上海"超级博士后"：50万/年真金白银</div>
+<div class="sol">"破五唯"推进：不唯论文、不唯帽子、不唯职称、不唯学历、不唯奖项</div>
+<div class="sol">山西/甘肃婚假30天、部分高校推出科研人员心理支持服务</div></div>
+<div class="cd"><h4 style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:10px">❌ 仍需解决的问题</h4>
+<div class="sol">"破五唯"推进7年，方向是对的，但替代性评价标准的建设还需跟上——目前论文仍是最主要的"通用货币"</div>
+<div class="sol">博士后待遇"表面繁荣"：百万年薪宣传 vs 到手八千的现实</div>
+<div class="sol">"非升即走"扩展到副教授——躺不平，也卷不赢</div>
+<div class="sol">科研经费管理：报账难、审计严、科研人员变"会计"</div>
+<div class="sol">学术评价行政化：科研能力不一定够用，但"帽子"和关系往往好使——行政逻辑与学术逻辑如何更好地协调，依然是个待解的课题</div>
+<div class="sol">出生人口下降→高校招生萎缩→教职需求减少→青椒出路更窄</div>
+<div class="sol">AI冲击：论文写作、数据分析、文献综述等环节被AI替代的焦虑</div></div>
+</div>
+<div class="phi" style="margin-top:14px;border-color:rgba(26,154,142,.15);background:linear-gradient(135deg,rgba(26,154,142,.04),rgba(61,123,184,.03),rgba(124,58,237,.02))"><h4 style="font-size:15px;color:var(--tea)">💡 写在最后：科研值得更好的样子</h4><p>这份报告罗列了很多问题——收入、论文、基金、考核、造假、导学关系——看起来一地鸡毛。但换个角度想：<strong>这些问题之所以被看见、被讨论、被吐槽，恰恰说明这一代科研人没有麻木。</strong>他们一边自嘲"科研民工"，一边还是走进了实验室；一边调侃"publish or perish"，一边还是认真地写着下一篇论文。<br/><br/>而且变化确实在发生：博士生待遇在提高，"非升即走"在调整，"破五唯"从口号在慢慢落地，越来越多的高校开始建立师生关系的反馈机制，科技部也启动了撤稿专项整治。这些改变也许还不够快、不够彻底，但方向是对的。<br/><br/>说到底，科研的魅力从来不在于论文、帽子或编制——而在于那个<strong>"我想搞明白"</strong>的瞬间。<br/><br/><strong>科研的本质</strong>，其实很朴素：它是一套用证据和可检验的方法去逼近可靠知识的过程——从提出问题、收集数据、反复验证，到在同行审视下修正结论。在最理想的意义上，科研既是<strong>满足好奇心</strong>的探索，也是对“真”的一种谦卑追问：不迷信权威，不轻信直觉，愿意让事实推翻自己。当环境足够友好时，论文、基金、考核会回到“手段”的位置，而不是吞噬生活的“目的”。宇宙那么大，未知那么多，能以探索为职业，本身就是一种幸运。只是我们希望，这种幸运不需要以牺牲健康、尊严和生活质量为代价。<br/><br/>一个好的科研环境，应该让人既能仰望星空，也能脚踏实地。既有探索未知的自由，也有养家糊口的体面。既敢花十年赌一个不确定的想法，也不必为明天的饭碗焦虑。<br/><br/>我们离这个目标还有距离。但只要还有人愿意在深夜的实验室里，为一个异常发现而兴奋——<strong>科研的火种就不会灭。</strong><br/><br/><em style="font-size:12.5px;color:var(--t2)">如果你是科研人——辛苦了。这条路不容易，但你选择了人类最有价值的事业之一。<br/>如果你身边有科研人——多理解他们一点。他们的焦虑不是矫情，他们的付出值得被看见。</em></p></div>
+</section>
+<!-- ===== S13: REFERENCES ===== -->
+<section class="sec" id="s13">
+<div class="sec-lb">13 — 参考文献</div>
+<h2 class="sec-ti">数据来源</h2>
+<p class="sec-su">所有数据均来自公开发布的官方统计、学术研究和权威媒体。</p>
+<div class="cd"><h4 style="font-size:13px;font-weight:700;margin-bottom:12px">📄 官方数据与政策</h4>
+<div class="ref"><b>[1]</b> 国家自然科学基金委员会.2024年度项目资助结果通告.</div>
+<div class="ref"><b>[2]</b> 国家统计局.2024年科学研究和技术服务业平均工资.</div>
+<div class="ref"><b>[3]</b> 中国科学技术信息研究所.《2024年中国科技论文统计报告》.</div>
+<div class="ref"><b>[4]</b> 中国科协.《中国科技期刊发展蓝皮书(2024)》.</div>
+<div class="ref"><b>[5]</b> Web of Science.2024年中国SCI发文统计数据.</div>
+<div class="ref"><b>[6]</b> 中科院心理研究所.《心理健康蓝皮书(2023-2024)》.</div>
+</div>
+<div class="cd" style="margin-top:14px"><h4 style="font-size:13px;font-weight:700;margin-bottom:12px">📊 调查报告</h4>
+<div class="ref"><b>[7]</b> LetPub.《2023年中国高校SCI论文综合排名报告》.2024.3.</div>
+<div class="ref"><b>[8]</b> 2025中国博士后就业现状调研报告.</div>
+<div class="ref"><b>[9]</b> 第一财经.《国自然基金资助比例下降，青年人才直呼"越来越卷"》.2023.</div>
+<div class="ref"><b>[10]</b> 测试狗.《披上预聘制外衣的"非升即走"如何扭曲高校人才体制？》.</div>
+</div>
+<div class="cd" style="margin-top:14px"><h4 style="font-size:13px;font-weight:700;margin-bottom:12px">📰 媒体报道</h4>
+<div class="ref"><b>[11]</b> 澎湃新闻.《科研人员的收入在什么水平才算"合理"？》.</div>
+<div class="ref"><b>[12]</b> 澎湃新闻.《百万年薪招博士后，"钱途"有了，前途有吗？》.</div>
+<div class="ref"><b>[13]</b> 品玩.《非升即走、不给编制：青年科学家何去何从？》.</div>
+<div class="ref"><b>[14]</b> 瞭望.《高校"非升即走"观察》.2024年第20期.</div>
+<div class="ref"><b>[15]</b> 央视网.《许多高校实行"非升即走"预聘制，如何防止跑偏走样？》.2024.4.</div>
+<div class="ref"><b>[16]</b> MBAChina.《研究生，涨薪？》.2024.6.</div>
+<div class="ref"><b>[17]</b> 观察者网.《FAST低薪招聘：脑海不禁浮现"青科"的脸》.2018.</div>
+<div class="ref"><b>[18]</b> 人民日报.《我国高水平国际期刊论文数量保持世界第一》.2024.10.</div>
+<div class="ref"><b>[19]</b> 科学网.《蓝皮书：中国学者发文量大、SCI期刊数量少》.2024.12.</div>
+<div class="ref"><b>[20]</b> 知乎.《中国研究所的科研人员，知识分子是否待遇过低？》.多位博士生/博士后自述.</div>
+</div>
+<div class="cd" style="margin-top:14px"><h4 style="font-size:13px;font-weight:700;margin-bottom:12px">🔍 学术不端与师生关系</h4>
+<div class="ref"><b>[21]</b> Nature. China conducts first nationwide review of retractions and research misconduct. 2024.1.</div>
+<div class="ref"><b>[22]</b> CSDN. 2024上半年SCI论文撤稿大盘点：中国学者撤稿占54%. 2024.7.</div>
+<div class="ref"><b>[23]</b> 中国科学院学部. 学术不端事件频发，科研诚信问题怎么解？2023.5.</div>
+<div class="ref"><b>[24]</b> 国家自然科学基金委. 2024年第一批次学术不端行为案件处理决定（涉15所高校32篇论文）.</div>
+<div class="ref"><b>[25]</b> 科技部. 关于开展学术不端撤稿论文专项整治行动的通知. 2025.11.</div>
+<div class="ref"><b>[26]</b> 经济观察网. 今年首批学术造假通报，15所大学"上榜". 2024.4.</div>
+<div class="ref"><b>[27]</b> 科学网. 压榨越轨造假——"导生关系"失序现象为何频发？2024.4.</div>
+<div class="ref"><b>[28]</b> 澎湃新闻. 在中国，研究生面临着怎样的困境？2020.10.</div>
+<div class="ref"><b>[29]</b> AJE美国期刊专家. 揭秘高校"隐形剥削"：导师滥用职权. 2024.7.</div>
+<div class="ref"><b>[30]</b> 教育部. 部分高校教师师德失范警示案例(多批次). 2019-2024.</div>
+<div class="ref"><b>[31]</b> 新民周刊. 师生关系跑偏了？2018.</div>
+<div class="ref"><b>[32]</b> MBAChina. 严厉！学术造假论文公开撤稿. 2024.12.</div>
+</div>
+<div class="cd" style="margin-top:14px;background:linear-gradient(135deg,rgba(220,53,69,.02),rgba(196,154,60,.02))">
+<p style="font-size:11.5px;color:var(--t2);line-height:2"><strong>声明：</strong>本报告为AI辅助信息整理与分析参考，带有调侃与讽刺风格，旨在引起对科研人员生存状况的关注与反思，不构成对任何机构或制度的恶意攻击。数据来源为近年公开报告估算值，不同来源间可能存在口径差异。漫画场景为基于真实情况的艺术化改编。</p></div>
+</section>
+</div><!-- .wrap -->
+<footer class="footer">
+<p><strong style="color:var(--t2)">当代科研人画像：中国科研人员生存报告</strong><br/>深度数据报告 · 13章 · 32篇参考文献 · 10幕漫画<br/><br/>
+<span style="font-size:9px">长按保存 · 转发给每一位在科研路上奔跑的朋友 · 你不是一个人</span></p>
+</footer>
+<div class="share">
+<button class="share-btn share-p" onclick="doShare()">📤 分享到微信</button>
+<button class="share-btn share-s" onclick="doCopy()">🔗 复制链接</button>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+function doShare(){showToast('请点击右上角 ··· 分享到朋友圈或发送给朋友')}
+function doCopy(){var u=location.href;if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){showToast('✅ 链接已复制')})}else{var t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);showToast('✅ 链接已复制')}}
+function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2200)}
+var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');e.target.querySelectorAll('.pr-fill,.css-bar-fill').forEach(function(b){if(b.dataset.w)b.style.width=b.dataset.w+'%'})}})},{threshold:.06});
+document.querySelectorAll('.sec').forEach(function(s){obs.observe(s)});
+var navAs=document.querySelectorAll('.nav a'),secs=document.querySelectorAll('.sec');
+window.addEventListener('scroll',function(){var cur='';secs.forEach(function(s){if(scrollY>=s.offsetTop-120)cur=s.id});navAs.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+cur)});});
+setTimeout(function(){document.querySelectorAll('.css-bar-fill,.pr-fill').forEach(function(b){if(b.dataset.w)b.style.width=b.dataset.w+'%'});},500);
+</script>
+<button aria-label="返回顶部" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" type="button">⬆︎ 返回顶部</button>
+<script>
+(function(){
+  var btn=document.getElementById('toTop');
+  if(!btn)return;
+  window.addEventListener('scroll',function(){btn.style.display=(window.scrollY>600)?'flex':'none'},{passive:true});
+})();
+</script>
+</body>
+</html>
